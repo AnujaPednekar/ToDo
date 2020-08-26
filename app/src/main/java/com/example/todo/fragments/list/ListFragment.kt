@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.todo.R
+import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
 
@@ -17,4 +19,10 @@ class ListFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        noDataFab.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+        }
+    }
 }
