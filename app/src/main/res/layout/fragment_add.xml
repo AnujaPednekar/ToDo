@@ -8,11 +8,12 @@
     tools:context=".fragments.add.AddFragment">
 
 
+
     <EditText
         android:id="@+id/title_et"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_input"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="textPersonName"
@@ -21,14 +22,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="Hello" />
 
     <Spinner
         android:id="@+id/priorities_spinner"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
+        android:background="@color/white"
         android:entries="@array/priorities"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
@@ -42,7 +44,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_input"
         android:ems="10"
         android:gravity="top|start"
         android:hint="@string/description"

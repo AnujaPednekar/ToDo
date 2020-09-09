@@ -16,9 +16,11 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         repository = TodoRepository(toDoDao)
+        getAllData()
     }
 
     fun getAllData() = repository.getAllData()
+
     fun insertData(toDoData: ToDoData){
         viewModelScope.launch(Dispatchers.IO){
             repository.insertData(toDoData)

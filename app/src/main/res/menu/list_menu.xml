@@ -12,7 +12,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_sortBy"
-            android:title="@string/sort_by">
+            android:title="@string/sort_by"
+            >
             <menu>
                 <item
                     android:id="@+id/menu_priority_high"
