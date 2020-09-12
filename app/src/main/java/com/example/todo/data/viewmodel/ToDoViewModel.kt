@@ -21,12 +21,27 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAllData() = repository.getAllData()
 
-    fun insertData(toDoData: ToDoData){
-        viewModelScope.launch(Dispatchers.IO){
+    fun insertData(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.insertData(toDoData)
         }
     }
 
+    fun updateData(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateData(toDoData)
+        }
+    }
 
+    fun delete(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.delete(toDoData)
+        }
+    }
 
+    fun deleteAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAll()
+        }
+    }
 }

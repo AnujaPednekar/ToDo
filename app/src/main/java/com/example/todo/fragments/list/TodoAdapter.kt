@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todo.R
 import com.example.todo.data.model.Priority
 import com.example.todo.data.model.ToDoData
-import com.example.todo.fragments.list.TodoAdapter.*
+import com.example.todo.fragments.list.TodoAdapter.MyViewHolder
 import kotlinx.android.synthetic.main.row_item.view.*
 
 class TodoAdapter : RecyclerView.Adapter<MyViewHolder>() {
@@ -27,11 +28,17 @@ class TodoAdapter : RecyclerView.Adapter<MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.apply {
-            title_tv.text = todoList[position].title
-            description_tv.text = todoList[position].description
+        val currentItem = todoList[position]
 
-            when (todoList[position].priority) {
+        holder.itemView.apply {
+            title_tv.text = currentItem.title
+            description_tv.text = currentItem.description
+            row_main.setOnClickListener {
+                ListFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
+                    .let { findNavController().navigate(it) }
+            }
+
+            when (currentItem.priority) {
                 Priority.HIGH -> priority_indicator.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
