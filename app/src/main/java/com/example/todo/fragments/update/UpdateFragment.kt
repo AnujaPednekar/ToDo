@@ -13,6 +13,7 @@ import com.example.todo.R
 import com.example.todo.data.model.ToDoData
 import com.example.todo.data.viewmodel.SharedViewModel
 import com.example.todo.data.viewmodel.ToDoViewModel
+import com.example.todo.databinding.FragmentUpdateBinding
 import kotlinx.android.synthetic.main.fragment_update.*
 
 class UpdateFragment : Fragment() {
@@ -20,24 +21,21 @@ class UpdateFragment : Fragment() {
     private val args: UpdateFragmentArgs by navArgs()
     private val sharedViewModel: SharedViewModel by viewModels()
     private val toDoViewModel: ToDoViewModel by viewModels()
+    private val binding: FragmentUpdateBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_update, container, false)
+        val binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        val currentItem = args.currentItem
-        current_title_et.setText(currentItem.title)
-        current_description_et.setText(currentItem.description)
-        current_priorities_spinner.apply {
-            setSelection(sharedViewModel.parsePriority(currentItem.priority))
-            onItemSelectedListener = sharedViewModel.listener
-        }
+        binding?.currentPrioritiesSpinner?.onItemSelectedListener = sharedViewModel.listener
     }
 
 

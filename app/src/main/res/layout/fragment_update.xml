@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="args"
+            type="com.example.todo.fragments.update.UpdateFragmentArgs" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +23,7 @@
             android:background="@drawable/custom_input"
             android:ems="10"
             android:hint="@string/title"
+            android:text="@{args.currentItem.title}"
             android:inputType="textPersonName"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
@@ -29,10 +37,11 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:entries="@array/priorities"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:background="@color/white"
+            android:setPriority="@{args.currentItem.priority}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +57,7 @@
             android:gravity="top|start"
             android:hint="@string/description"
             android:inputType="textMultiLine"
+            android:text="@{args.currentItem.description}"
             android:paddingStart="24dp"
             android:paddingTop="16dp"
             android:paddingEnd="24dp"

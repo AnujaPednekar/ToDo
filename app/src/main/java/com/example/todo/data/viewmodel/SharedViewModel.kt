@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.todo.R
 import com.example.todo.data.model.Priority
+import com.example.todo.data.model.ToDoData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,12 +29,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun parsePriority(priority: Priority): Int {
-        return when (priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            Priority.LOW -> 2
-        }
+    fun updateDbStatus(list: List<ToDoData>) {
+        isDataAvailableLiveData.value = list.isNotEmpty()
     }
 
     val listener: AdapterView.OnItemSelectedListener = object :
