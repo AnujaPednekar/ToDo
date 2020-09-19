@@ -2,6 +2,7 @@ package com.example.todo.data.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.todo.data.ToDoDatabase
 import com.example.todo.data.model.ToDoData
@@ -43,6 +44,10 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
         }
+    }
+
+    fun search(searchQuery: String): LiveData<List<ToDoData>> {
+        return repository.search(searchQuery)
     }
 
 

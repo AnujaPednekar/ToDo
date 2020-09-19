@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,8 +18,9 @@ import com.example.todo.data.viewmodel.ToDoViewModel
 import com.example.todo.databinding.FragmentListBinding
 import com.example.todo.fragments.list.adapter.TodoAdapter
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val listAdapter: TodoAdapter by lazy { TodoAdapter() }
     private val toDoViewModel: ToDoViewModel by viewModels()
@@ -56,11 +58,14 @@ class ListFragment : Fragment() {
     }
 
     private fun setRecyclerview() {
-        _binding?.recyclerView.apply {
-            this?.adapter = listAdapter
-            this?.layoutManager = LinearLayoutManager(requireActivity())
+        _binding?.recyclerView?.apply {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(requireActivity())
+            swipeToDelete(this)
+            itemAnimator = SlideInUpAnimator().apply {
+                addDuration = 300
+            }
         }
-        _binding?.recyclerView?.let { swipeToDelete(it) }
     }
 
     private fun swipeToDelete(recyclerView: RecyclerView) {
@@ -91,6 +96,12 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_menu, menu)
+        val searchItem = menu.findItem(R.id.menu_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.apply {
+            isSubmitButtonEnabled = true
+            setOnQueryTextListener(this@ListFragment)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -122,5 +133,29 @@ class ListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        performSearchOperationUsing(query)
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        performSearchOperationUsing(query)
+        return true
+    }
+
+    private fun performSearchOperationUsing(query: String?) {
+        val title = "%$query%"
+        query?.let {
+            toDoViewModel.search(title).observe(
+                this,
+                { list ->
+                    list?.let {
+                        listAdapter.setData(list)
+                    }
+                }
+            )
+        }
     }
 }

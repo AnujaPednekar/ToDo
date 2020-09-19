@@ -10,5 +10,6 @@ class TodoRepository(private val toDoDao: ToDoDao) {
     suspend fun updateData(toDoData: ToDoData) = toDoDao.updateData(toDoData)
     suspend fun delete(toDoData: ToDoData) = toDoDao.delete(toDoData)
     suspend fun deleteAll() = toDoDao.deleteAll()
+    fun search(searchQuery: String) = toDoDao.search(searchQuery)
 
 }
