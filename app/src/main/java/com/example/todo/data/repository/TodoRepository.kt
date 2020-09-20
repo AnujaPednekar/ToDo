@@ -11,5 +11,7 @@ class TodoRepository(private val toDoDao: ToDoDao) {
     suspend fun delete(toDoData: ToDoData) = toDoDao.delete(toDoData)
     suspend fun deleteAll() = toDoDao.deleteAll()
     fun search(searchQuery: String) = toDoDao.search(searchQuery)
+    fun getDataSortedByHighPriority() = toDoDao.getDataSortedByHighPriority()
+    fun getDataSortedByLowPriority() = toDoDao.getDataSortedByLowPriority()
 
 }

@@ -9,8 +9,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todo.R
 import com.example.todo.data.model.ToDoData
 import com.example.todo.data.viewmodel.SharedViewModel
@@ -60,7 +60,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setRecyclerview() {
         _binding?.recyclerView?.apply {
             adapter = listAdapter
-            layoutManager = LinearLayoutManager(requireActivity())
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             swipeToDelete(this)
             itemAnimator = SlideInUpAnimator().apply {
                 addDuration = 300
@@ -99,14 +99,21 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
         searchView.apply {
-            isSubmitButtonEnabled = true
             setOnQueryTextListener(this@ListFragment)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_delete_all) {
-            removeAllItem()
+        when (item.itemId) {
+            R.id.menu_delete_all -> removeAllItem()
+            R.id.menu_priority_low -> toDoViewModel.getDataSortedByLowPriority()
+                .observe(this, {
+                    listAdapter.setData(it)
+                })
+            R.id.menu_priority_high -> toDoViewModel.getDataSortedByHighPriority()
+                .observe(this, {
+                    listAdapter.setData(it)
+                })
         }
         return super.onOptionsItemSelected(item)
     }
@@ -136,8 +143,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        performSearchOperationUsing(query)
-        return true
+        return false
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
